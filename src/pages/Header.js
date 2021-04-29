@@ -1,18 +1,40 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+	selectUserName,
+	selectUserPhoto,
+	setUserLoginDetails,
+} from '../features/user/userSlice';
+import { auth, provider } from '../firebase';
 import styled from 'styled-components';
 import { NavIcons } from '../data/data';
-import { auth, provider } from '../firebase';
 
 const Header = () => {
+	const dispatch = useDispatch();
+	const history = useHistory();
+	const userName = useSelector(selectUserName);
+	const userPhoto = useSelector(selectUserPhoto);
+
 	const handleAuth = () => {
 		auth
 			.signInWithPopup(provider)
 			.then((result) => {
-				console.log(result);
+				setUser(result.user);
 			})
 			.catch((err) => {
 				console.log(err);
 			});
+	};
+
+	const setUser = (user) => {
+		dispatch(
+			setUserLoginDetails({
+				name: user.displayName,
+				email: user.email,
+				photo: user.photoURL,
+			})
+		);
 	};
 
 	return (
@@ -20,18 +42,24 @@ const Header = () => {
 			<Logo>
 				<img src='/images/logo.svg' alt='Disney+' />
 			</Logo>
-			<NavMenu>
-				{NavIcons.map((item) => {
-					const { id, path, image, alt, title } = item;
-					return (
-						<a key={id} href={path}>
-							<img src={image} alt={alt} />
-							<span>{title}</span>
-						</a>
-					);
-				})}
-			</NavMenu>
-			<LoginButton onClick={handleAuth}>login</LoginButton>
+			{!userName ? (
+				<LoginButton onClick={handleAuth}>login</LoginButton>
+			) : (
+				<>
+					<NavMenu>
+						{NavIcons.map((item) => {
+							const { id, path, image, alt, title } = item;
+							return (
+								<a key={id} href={path}>
+									<img src={image} alt={alt} />
+									<span>{title}</span>
+								</a>
+							);
+						})}
+					</NavMenu>
+					<UserImg src={userPhoto} alt={userName}></UserImg>
+				</>
+			)}
 		</Container>
 	);
 };
@@ -129,6 +157,11 @@ const NavMenu = styled.div`
 	@media (max-width: 48em) {
 		display: none;
 	}
+`;
+
+const UserImg = styled.img`
+	height: 100%;
+	border-radius: 2.5em;
 `;
 
 const LoginButton = styled.a`
