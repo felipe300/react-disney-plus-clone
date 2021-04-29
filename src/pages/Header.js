@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
 	selectUserName,
 	selectUserPhoto,
 	setUserLoginDetails,
+	setSignOutState,
 } from '../features/user/userSlice';
 import { auth, provider } from '../firebase';
 import styled from 'styled-components';
@@ -16,15 +17,38 @@ const Header = () => {
 	const userName = useSelector(selectUserName);
 	const userPhoto = useSelector(selectUserPhoto);
 
+	useEffect(() => {
+		auth.onAuthStateChanged(async (user) => {
+			if (user) {
+				setUser(user);
+				history.push('/home');
+			}
+		});
+	}, [userName]);
+
 	const handleAuth = () => {
-		auth
-			.signInWithPopup(provider)
-			.then((result) => {
-				setUser(result.user);
-			})
-			.catch((err) => {
-				console.log(err);
-			});
+		if (!userName) {
+			auth
+				.signInWithPopup(provider)
+				.then((result) => {
+					setUser(result.user);
+				})
+				.catch((err) => {
+					console.log(err);
+				});
+		} else {
+			auth
+				.signOut()
+				.then(() => {
+					dispatch(setSignOutState());
+					history.push('/');
+				})
+				.catch((err) => console.log(err));
+		}
+	};
+
+	const handleSignOut = () => {
+		console.log('sign out');
 	};
 
 	const setUser = (user) => {
@@ -57,7 +81,12 @@ const Header = () => {
 							);
 						})}
 					</NavMenu>
-					<UserImg src={userPhoto} alt={userName}></UserImg>
+					<SignOut>
+						<UserImg src={userPhoto} alt={userName}></UserImg>
+						<DropDown>
+							<span onClick={handleAuth}>Sign out</span>
+						</DropDown>
+					</SignOut>
 				</>
 			)}
 		</Container>
@@ -84,7 +113,6 @@ const Logo = styled.a`
 	width: 5em;
 	margin-top: 0.25em;
 	max-height: 4.375em;
-	/* font-size: 0; */
 	display: inline-block;
 
 	img {
@@ -161,7 +189,8 @@ const NavMenu = styled.div`
 
 const UserImg = styled.img`
 	height: 100%;
-	border-radius: 2.5em;
+	border-radius: 50%;
+	width: 100%;
 `;
 
 const LoginButton = styled.a`
@@ -178,6 +207,42 @@ const LoginButton = styled.a`
 		background-color: hsla(100, 100%, 100%);
 		color: hsl(0, 0%, 0%);
 		border-color: transparent;
+	}
+`;
+
+const DropDown = styled.div`
+	position: absolute;
+	top: 3em;
+	right: 0px;
+	background: hsl(0, 0%, 7%);
+	border: 0.0625em solid hsla(0, 0%, 59%, 0.34);
+	border-radius: 4px;
+	box-shadow: rgb(0 0 0 / 50%) 0em 0em 1.125em 0em;
+	padding: 0.625em;
+	font-size: 0.875;
+	letter-spacing: 0.1875em;
+	width: 7.125em;
+	opacity: 0;
+`;
+
+const SignOut = styled.div`
+	position: relative;
+	height: 3em;
+	width: 3em;
+	display: grid;
+	place-content: center;
+	cursor: pointer;
+
+	/* ${UserImg} {
+		border-radius: 50%;
+		width: 100%;
+		height: 100%;
+	} */
+	&:hover {
+		${DropDown} {
+			opacity: 1;
+			transition-duration: 1s;
+		}
 	}
 `;
 

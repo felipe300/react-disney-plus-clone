@@ -30,16 +30,16 @@ const Container = styled.section`
 `;
 
 const Content = styled.div`
-	margin-bottom: 10vh;
+	margin-bottom: 10vw;
 	width: 100%;
 	position: relative;
-	height: 100%;
 	min-height: 100vh;
+	height: 100%;
 	box-sizing: border-box;
 	display: grid;
-	place-items: center;
+	justify-content: center;
 	flex-direction: column;
-	padding: 5em 2.5em;
+	padding: 15em 2.5em;
 `;
 
 const BgImage = styled.div`
@@ -57,7 +57,7 @@ const BgImage = styled.div`
 
 const CTA = styled.div`
 	display: grid;
-	place-items: center;
+	place-content: center;
 	max-width: 40.625em;
 	width: 100%;
 `;
