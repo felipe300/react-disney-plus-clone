@@ -20,10 +20,11 @@ const ImgSlider = () => {
 	return (
 		<Carousel {...settings}>
 			{sliderImg.map((slider) => {
+				const { alt, id, image } = slider;
 				return (
-					<Wrap key={slider.id}>
+					<Wrap key={id}>
 						<a href='/'>
-							<img src={slider.image} alt={slider.alt} />
+							<img src={image} alt={alt} />
 						</a>
 					</Wrap>
 				);
