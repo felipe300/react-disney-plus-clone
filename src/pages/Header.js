@@ -47,10 +47,6 @@ const Header = () => {
 		}
 	};
 
-	const handleSignOut = () => {
-		console.log('sign out');
-	};
-
 	const setUser = (user) => {
 		dispatch(
 			setUserLoginDetails({
