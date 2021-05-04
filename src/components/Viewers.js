@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { viewersData } from '../data/ViewersData';
+import { viewersData } from '../data/viewersData';
 
 const Viewers = () => {
 	return (

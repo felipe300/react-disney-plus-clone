@@ -9,7 +9,6 @@ html {
 body {
 	background-color: hsl(229, 67%, 5%);
 	color: hsl(0, 0%, 98%);
-
 	font-family: Avenir-Roman, sans-serif;
 	margin: 0;
 	padding: 0;
@@ -18,7 +17,6 @@ body {
 a {
 	color: hsl(0, 0%, 98%);
 	text-decoration: none;
-	/* background-color: hsl(207, 97%, 47%); */
 	background-color: hsl(228, 36%, 5%);
 }
 

@@ -1,6 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 import ImgSlider from '../components/ImgSlider';
+import NewDisney from '../components/NewDismey';
+import Originals from '../components/Originals';
+import Recommends from '../components/Recommends';
+import Trending from '../components/Trending';
 import Viewers from '../components/Viewers';
 
 const Home = () => {
@@ -8,6 +12,10 @@ const Home = () => {
 		<Container>
 			<ImgSlider />
 			<Viewers />
+			<Recommends />
+			<NewDisney />
+			<Originals />
+			<Trending />
 		</Container>
 	);
 };

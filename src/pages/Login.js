@@ -96,6 +96,7 @@ const Description = styled.p`
 	margin: 0 0 1.5em;
 	line-height: 1.5;
 	letter-spacing: 0.09375em;
+	text-align: center;
 `;
 
 const CTALogoTwo = styled.img`

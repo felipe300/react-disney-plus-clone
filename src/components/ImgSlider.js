@@ -78,6 +78,7 @@ const Wrap = styled.div`
 	border-radius: 0.25em;
 	cursor: pointer;
 	position: relative;
+
 	a {
 		border-radius: 0.25em;
 		box-shadow: rgb(0 0 0 / 69%) 0em 1.625em 1.875em -0.625em,
