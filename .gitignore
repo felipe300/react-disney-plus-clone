@@ -2,6 +2,8 @@
 
 # personal
 .env
+/src/data/disney+DataforFirestore.json
+/src/data/disneyPlusMoviesData.json
 
 # dependencies
 /node_modules
